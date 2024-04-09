@@ -1,6 +1,13 @@
 import csv
 import random
 
+SQUARES = {
+    'correct_place': '🟩',
+    'correct_letter': '🟨',
+    'incorrect_letter': '⬛'
+}
+
+
 print("Welcome to Wordle!"
       "Here you can play a game of Wordle \n"
       ""
@@ -38,8 +45,10 @@ user_input = list(input("Please guess a five letter word"))
 print(user_input)
 
 i = 0
-for i in range(0,5):
+guessed = []
+wordle_pattern = []
+for i, char in enumerate(user_input):
       if user_input[i] == storage[i]:
-            print("Correct!")
+            print("Correct")
       else:
             print("Incorrect!")
