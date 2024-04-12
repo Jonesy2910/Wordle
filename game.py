@@ -33,7 +33,7 @@ def chosen_word():
     total_words = len(all_words)
 
     random_word_idx = random.randint(0, total_words - 1)
-    wordle_word = all_words[random_word_idx]
+    wordle_word = all_words[random_word_idx].upper()
     return wordle_word
 
 
@@ -60,26 +60,27 @@ def game(console, chosen_word):
     all_words_guessed = []
 
     while not end_of_game:
-        user_guess = Prompt.ask("Please guess a five letter word")
+        user_guess = Prompt.ask("Please guess a five letter word").upper()
         while len(user_guess) != 5 or user_guess in already_guessed:
             if user_guess in all_words_guessed:
                 console.print("[red]You've already guessed this word!!\n[/]")
             else:
                 console.print('[red]Please enter a 5-letter word\n[/]')
-            user_guess = input("Please enter a 5-letter word").upper()
+            user_guess = input("Please enter a 5-letter word: ").upper()
         already_guessed.append(user_guess)
         guessed, pattern = check_guess(user_guess, chosen_word)
         all_words_guessed.append(guessed)
         full_wordle_pattern.append(pattern)
 
         console.print(*all_words_guessed, sep="\n")
+
         if user_guess == chosen_word or len(already_guessed) == ALLOWED_GUESSES:
             end_of_game = True
     if len(already_guessed) == ALLOWED_GUESSES and user_guess != chosen_word:
-        console.print(f"\n[red]WORDLE X/{ALLOWED_GUESSES}[/]")
+        console.print(f'\n[red]WORDLE X/{ALLOWED_GUESSES}[/]')
         console.print(f'\n[green]Correct Word: {chosen_word}[/]')
     else:
-        console.print(f"\n[green]WORDLE {len(already_guessed)}\{ALLOWED_GUESSES}[/]\n")
+        console.print(f'\n[green]WORDLE {len(already_guessed)}\{ALLOWED_GUESSES}[/]\n')
     console.print(*full_wordle_pattern, sep="\n")
 
 
