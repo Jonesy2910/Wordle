@@ -40,17 +40,21 @@ def chosen_word():
 def check_guess(user_input, storage):
     guessed = []
     wordle_pattern = []
+    words = []
     for i, char in enumerate(user_input):
         if user_input[i] == storage[i]:
-            guessed.append(f'[black on green]{SQUARES["correct_place"]}[/]')
+            guessed.append(SQUARES["correct_place"])
+            words.append(char)
             wordle_pattern.append(SQUARES['correct_place'])
         elif char in storage:
-            guessed.append(f'[black on yellow]{SQUARES["correct_letter"]}[/]')
+            guessed.append(SQUARES["correct_letter"])
+            words.append(char)
             wordle_pattern.append(SQUARES['correct_letter'])
         else:
-            guessed.append(f'[black on white]{SQUARES["incorrect_letter"]}[/]')
+            guessed.append(SQUARES["incorrect_letter"])
+            words.append(char)
             wordle_pattern.append(SQUARES['incorrect_letter'])
-    return "".join(guessed), "".join(wordle_pattern)
+    return "".join(guessed), "".join(wordle_pattern), "".join(words)
 
 
 def game(console, chosen_word):
@@ -58,6 +62,7 @@ def game(console, chosen_word):
     already_guessed = []
     full_wordle_pattern = []
     all_words_guessed = []
+    prev_words = []
 
     while not end_of_game:
         user_guess = Prompt.ask("Please guess a five letter word").upper()
@@ -68,11 +73,13 @@ def game(console, chosen_word):
                 console.print('[red]Please enter a 5-letter word\n[/]')
             user_guess = input("Please enter a 5-letter word: ").upper()
         already_guessed.append(user_guess)
-        guessed, pattern = check_guess(user_guess, chosen_word)
+        guessed, pattern, words = check_guess(user_guess, chosen_word)
         all_words_guessed.append(guessed)
         full_wordle_pattern.append(pattern)
+        prev_words.append(words)
 
         console.print(*all_words_guessed, sep="\n")
+        console.print(*prev_words, sep="\n")
 
         if user_guess == chosen_word or len(already_guessed) == ALLOWED_GUESSES:
             end_of_game = True
