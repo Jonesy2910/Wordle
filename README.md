@@ -12,3 +12,4 @@ See if the word is an actual word that they enter (More validation).
 Allow the user to get a word from any word in the dictionary.
 Create a real GUI for the application.
 Create documentation for the clone.
+
